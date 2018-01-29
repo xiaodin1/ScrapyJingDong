@@ -13,9 +13,7 @@ class ProducturlSpider(scrapy.Spider):
     allowed_domains = ['jd.com']
     redis_key = 'producturl:start_urls'
     url_base = 'https://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&page={0}&sort=sort%5Frank%5Fasc&trans=1&JL=6_0_0#J_main'
-
     url_item_base = 'https://item.jd.com/{0}.html'
-
     url_price_base = 'https://p.3.cn/prices/mgets?pdtk=&skuIds=J_{0}'
 
     start_urls = [url_base.format(1)]
@@ -29,18 +27,18 @@ class ProducturlSpider(scrapy.Spider):
         print('page >>> ',response.url)
         slaveWareList = re.findall('slaveWareList =(.*?);', response.text)[0]
         skuids = self.get_skuids(slaveWareList)
-        log.msg('skuids : %s'%len(skuids),level=log.INFO)
+        # log.msg('skuids : %s'%len(skuids),level=log.INFO)
         for skuid in skuids:
             if type(skuid) is list:
                 skuid = skuid[0]
             itemurl = self.url_item_base.format(skuid)
-            log.msg('itemurl : %s' % itemurl)
+            # log.msg('itemurl : %s' % itemurl)
             yield scrapy.Request(itemurl,callback=self.parse_item)
 
     def parse_item(self,response):
         items = ScrapyjdItem()
         itemurl = response.url
-        print('item >>> ',itemurl)
+        # print('item >>> ',itemurl)
         skuId = re.findall('/(\d.*).html', response.url)[0]
         iteminfo = response.xpath('//div[@class="itemInfo-wrap"]')[0]
         items['skuname'] = iteminfo.xpath('./div[@class="sku-name"]')[0].xpath('string(.)')[0].extract().replace('\r', '').replace('\n', '').replace('\t', '').replace(' ', '')

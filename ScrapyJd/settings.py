@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from datetime import datetime
+
 # Scrapy settings for ScrapyJd project
 #
 # For simplicity, this file contains only settings considered important or
@@ -31,8 +33,8 @@ ROBOTSTXT_OBEY = True
 # DOWNLOAD_DELAY = 3
 
 # The download delay setting will honor only one of:
-#CONCURRENT_REQUESTS_PER_DOMAIN = 16
-#CONCURRENT_REQUESTS_PER_IP = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 16 #对当个网站进行并发请求的最大值
+CONCURRENT_REQUESTS_PER_IP = 0  #对单个IP进行并发请求的最大值。如果非0则忽略DOMAIN设置。
 
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = False
@@ -54,9 +56,10 @@ COOKIES_ENABLED = False
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-# DOWNLOADER_MIDDLEWARES = {
-#    'ScrapyJd.middlewares.ScrapyjdDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   # 'ScrapyJd.middlewares.ScrapyjdDownloaderMiddleware': 543,
+   'ScrapyJd.middlewares.UserAgentmiddleware':400
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -72,16 +75,16 @@ ITEM_PIPELINES = {
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
-#AUTOTHROTTLE_ENABLED = True
+AUTOTHROTTLE_ENABLED = True   #启用自动限速扩展
 # The initial download delay
-#AUTOTHROTTLE_START_DELAY = 5
+AUTOTHROTTLE_START_DELAY = 5  #初始化下载延时 5s
 # The maximum download delay to be set in case of high latencies
-#AUTOTHROTTLE_MAX_DELAY = 60
+AUTOTHROTTLE_MAX_DELAY = 30   #设置在高延迟情况下最大的下载延迟 30s
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
 #AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
 # Enable showing throttling stats for every response received:
-#AUTOTHROTTLE_DEBUG = False
+AUTOTHROTTLE_DEBUG = False #用于启动Debug模式
 
 # Enable and configure HTTP caching (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html#httpcache-middleware-settings
@@ -93,12 +96,10 @@ ITEM_PIPELINES = {
 
 # HTTPERROR_ALLOWED_CODES = [301]
 
+REDIRECT_ENABLED = True   #重定向 False为禁止
 
-REDIRECT_ENABLED = False
-
-LOG_LEVEL = 'INFO'
-
-LOG_FILE="log.txt"
+LOG_LEVEL = 'INFO'   #日志级别
+LOG_FILE="./Logs/%s.txt"%datetime.now().strftime('%Y%m%d%H%M%S')  #输入日志到指定文件
 
 ##Scrapy-Redis config#####################################################
 
@@ -107,6 +108,15 @@ SCHEDULER = 'scrapy_redis.scheduler.Scheduler'
 
 # 确保所有的爬虫通过Redis去重
 DUPEFILTER_CLASS = 'scrapy_redis.dupefilter.RFPDupeFilter'
+
+# 是否在关闭时候保留原来的调度器和去重记录，True=保留，False=清空
+# SCHEDULER_PERSIST = True
+
+# 是否在开始之前清空 调度器和去重记录，True=清空，False=不清空
+# SCHEDULER_FLUSH_ON_START = False
+
+# 去调度器中获取数据时，如果为空，最多等待时间（最后没数据，未获取到）。
+# SCHEDULER_IDLE_BEFORE_CLOSE = 60
 
 # 将清除的项目在Redis中进行处理
 # ITEM_PIPELINES = {

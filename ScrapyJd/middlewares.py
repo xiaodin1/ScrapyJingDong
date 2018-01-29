@@ -5,7 +5,7 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-from scrapy import signals
+from scrapy import signals,log
 import redis
 import random
 import json
@@ -114,6 +114,7 @@ class ScrapyjdDownloaderMiddleware(object):
 class UserAgentmiddleware(UserAgentMiddleware):
     def process_request(self, request, spider):
         agent = random.choice(USER_AGENTS)
+        log.msg('agent : %s' % agent,level=log.INFO)
         request.headers['User-Agent'] = agent
 
 # class CookieMiddleware(RedirectMiddleware):
