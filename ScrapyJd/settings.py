@@ -101,7 +101,10 @@ REDIRECT_ENABLED = True   #重定向 False为禁止
 LOG_LEVEL = 'INFO'   #日志级别
 LOG_FILE="./Logs/%s.txt"%datetime.now().strftime('%Y%m%d%H%M%S')  #输入日志到指定文件
 
-##Scrapy-Redis config#####################################################
+
+########################################################################################################################################
+#>>> Scrapy-Redis config
+########################################################################################################################################
 
 # 启动Redis调度存储请求队列
 SCHEDULER = 'scrapy_redis.scheduler.Scheduler'
@@ -110,13 +113,13 @@ SCHEDULER = 'scrapy_redis.scheduler.Scheduler'
 DUPEFILTER_CLASS = 'scrapy_redis.dupefilter.RFPDupeFilter'
 
 # 是否在关闭时候保留原来的调度器和去重记录，True=保留，False=清空
-# SCHEDULER_PERSIST = True
+SCHEDULER_PERSIST = True
 
 # 是否在开始之前清空 调度器和去重记录，True=清空，False=不清空
 # SCHEDULER_FLUSH_ON_START = False
 
-# 去调度器中获取数据时，如果为空，最多等待时间（最后没数据，未获取到）。
-# SCHEDULER_IDLE_BEFORE_CLOSE = 60
+# 最大空闲时间防止分布式爬虫因为等待而关闭
+# SCHEDULER_IDLE_BEFORE_CLOSE = 10
 
 # 将清除的项目在Redis中进行处理
 # ITEM_PIPELINES = {
@@ -130,6 +133,26 @@ DUPEFILTER_CLASS = 'scrapy_redis.dupefilter.RFPDupeFilter'
 # 设置此项优先级高于设置指定端口和地址
 # 例：REDIS_URL = 'redis://root:password@hostname:port'
 REDIS_URL = 'redis://root:@localhost:6379'
+
+
+########################################################################################################################################
+#>>> Scrapy_Redis_bloomfilter config
+########################################################################################################################################
+
+#启动bloomfilter调度
+# SCHEDULER = 'scrapy_redis_bloomfilter.scheduler.Scheduler'
+
+# 使用bloomfilter去重
+# DUPEFILTER_CLASS = 'scrapy_redis_bloomfilter.dupefilter.RFPDupeFilter'
+
+# BLOOMFILTER_HASH_NUMBER = 6
+
+# BLOOMFILTER_BIT = 30
+
+
+########################################################################################################################################
+#>>> MongoDB config
+########################################################################################################################################
 
 Mongodb_Host = 'localhost'
 Mongodb_Port = 27017

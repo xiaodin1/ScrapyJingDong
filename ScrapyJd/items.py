@@ -14,3 +14,5 @@ class ScrapyjdItem(scrapy.Item):
     skuname = scrapy.Field()
     price = scrapy.Field()
     itemurl = scrapy.Field()
+    commentCount = scrapy.Field()
+

@@ -102,3 +102,10 @@ ENV/
 
 # Pycharm
 .idea/
+
+# Log
+Logs/
+
+
+
+
