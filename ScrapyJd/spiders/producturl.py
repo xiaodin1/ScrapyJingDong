@@ -8,9 +8,12 @@ import requests
 import re
 from ..items import ScrapyjdItem
 
+
 class ProducturlSpider(RedisSpider):
     name = 'producturl'
     allowed_domains = ['jd.com']
+    # start_urls = ['http://jd.com/']
+
     redis_key = 'producturl:start_urls'
 
     url_base = 'https://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&page={0}&sort=sort%5Frank%5Fasc&trans=1&JL=6_0_0#J_main'
@@ -18,9 +21,12 @@ class ProducturlSpider(RedisSpider):
     url_price_base = 'https://p.3.cn/prices/mgets?pdtk=&skuIds=J_{0}'
     url_comments_base = 'https://sclub.jd.com/comment/productPageComments.action?productId={0}&score=0&sortType=5&page=0&pageSize=10'
 
-    # start_urls = [url_base.format(1)]
+    def start_requests(self):
+        url = self.url_base.format(1)
+        yield scrapy.Request(url=url,callback=self.parse)
 
-    def parse(self,response):
+
+    def parse(self, response):
         pagesize = int(response.xpath('//div[@class="page clearfix"]/div[@class="p-wrap"]/span[@class="p-skip"]/em/b/text()')[0].extract())
         for i in range(1,pagesize+1):
             yield scrapy.Request(self.url_base.format(i),callback=self.parse_itemurl)
@@ -74,6 +80,7 @@ class ProducturlSpider(RedisSpider):
         for comtype in dic['hotCommentTagStatistics']:
             count += comtype['count']
         return count
+
 
 
 
