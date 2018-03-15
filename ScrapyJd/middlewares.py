@@ -114,28 +114,5 @@ class ScrapyjdDownloaderMiddleware(object):
 class UserAgentmiddleware(UserAgentMiddleware):
     def process_request(self, request, spider):
         agent = random.choice(USER_AGENTS)
-        log.msg('agent : %s' % agent,level=log.INFO)
+        # log.msg('agent : %s' % agent,level=log.INFO)
         request.headers['User-Agent'] = agent
-
-# class CookieMiddleware(RedirectMiddleware):
-#     def __init__(self,settings,crawler):
-#         RedirectMiddleware.__init__(self,settings,crawler)
-#         self.rconn = redis.from_url(settings['REDIS_URL'],db=1,decode_responses=True) # decode_responses设置取出的编码为str
-#         init_cookie(self.rconn,crawler.spider.name)
-
-#     @classmethod
-#     def from_crawler(cls, crawler):
-#         return cls(crawler.settings,crawler)
-
-#     def process_request(self,request,spider):
-#         redisKeys = self.rconn.keys()
-#         while len(redisKeys)>0:
-#             elem = random.choice(redisKeys)
-#             if spider.name+':Cookies' in elem:
-#                 cookie = json.loads(self.rconn.get(elem))
-#                 request.cookies = cookie
-#                 request.meta['accountText'] = elem.split('Cookies:')[-1]
-#                 break
-
-
-

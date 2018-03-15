@@ -7,14 +7,13 @@ import demjson
 import requests
 import re
 from ..items import ScrapyjdItem
+from datetime import datetime
 
-
-class ProducturlSpider(RedisSpider):
+class ProducturlSpider(Spider):
     name = 'producturl'
     allowed_domains = ['jd.com']
-    # start_urls = ['http://jd.com/']
 
-    redis_key = 'producturl:start_urls'
+    # redis_key = 'producturl:start_urls'
 
     url_base = 'https://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&page={0}&sort=sort%5Frank%5Fasc&trans=1&JL=6_0_0#J_main'
     url_item_base = 'https://item.jd.com/{0}.html'
@@ -25,7 +24,6 @@ class ProducturlSpider(RedisSpider):
         url = self.url_base.format(1)
         yield scrapy.Request(url=url,callback=self.parse)
 
-
     def parse(self, response):
         pagesize = int(response.xpath('//div[@class="page clearfix"]/div[@class="p-wrap"]/span[@class="p-skip"]/em/b/text()')[0].extract())
         for i in range(1,pagesize+1):
@@ -34,24 +32,29 @@ class ProducturlSpider(RedisSpider):
     def parse_itemurl(self, response):
         print('page >>> ',response.url)
         skuids = self.get_skuids(response.text)
-        log.msg('skuids : %s'%len(skuids),level=log.INFO)
+        # log.msg('skuids : %s'%len(skuids),level=log.INFO)
         for skuid in skuids:
             if type(skuid) is list:
                 skuid = skuid[0]
             itemurl = self.url_item_base.format(skuid)
-            log.msg('itemurl : %s' % itemurl)
+            # log.msg('itemurl : %s' % itemurl)
             yield scrapy.Request(itemurl,callback=self.parse_item)
 
     def parse_item(self,response):
         items = ScrapyjdItem()
         itemurl = response.url
-        print('item >>> ',itemurl)
+        # print('item >>> ',itemurl)
         skuId = re.findall('/(\d.*).html', response.url)[0]
         iteminfo = response.xpath('//div[@class="itemInfo-wrap"]')[0]
-        items['skuname'] = iteminfo.xpath('./div[@class="sku-name"]')[0].xpath('string(.)')[0].extract().replace('\r', '').replace('\n', '').replace('\t', '').replace(' ', '')
-        items['price'] = float(self.get_price(skuId))
-        items['commentCount'] = self.get_commentcount(skuId)
-        items['itemurl'] = itemurl
+        items['product_name'] = iteminfo.xpath('./div[@class="sku-name"]')[0].xpath('string(.)')[0].extract().replace('\r', '').replace('\n', '').replace('\t', '').replace(' ', '')
+        items['product_price'] = float(self.get_price(skuId))
+        # items['commentCount'] = self.get_commentcount(skuId)
+        items['product_url'] = itemurl
+        items['product_id'] = skuId
+        items['store_name'] = None
+        items['store_url'] = None
+        items['crawl_time'] = datetime.now().strftime('%Y%m%d%H%M%S')
+
         return items
 
     def get_skuids(self,text):
