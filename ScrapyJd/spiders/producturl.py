@@ -23,7 +23,7 @@ class ProducturlSpider(RedisSpider):
 
     def start_requests(self):
         url = self.url_base.format(1)
-        yield scrapy.Request(url=url,callback=self.parse)
+        yield scrapy.Request(url=url,callback=self.parse,dont_filter=True)
 
     def parse(self, response):
         text = None
@@ -34,7 +34,7 @@ class ProducturlSpider(RedisSpider):
             pagesize = 1
             log.msg(str(ex)+log_param(text=text),level=log.ERROR)
         for i in range(1,pagesize+1):
-            yield scrapy.Request(self.url_base.format(i),callback=self.parse_itemurl)
+            yield scrapy.Request(self.url_base.format(i),callback=self.parse_itemurl,dont_filter=True)
 
     def parse_itemurl(self, response):
         skuids = self.get_skuids(response.text)

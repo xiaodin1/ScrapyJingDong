@@ -132,7 +132,7 @@ SCHEDULER_PERSIST = True
 
 # 设置此项优先级高于设置指定端口和地址
 # 例：REDIS_URL = 'redis://root:password@hostname:port'
-REDIS_URL = 'redis://root:@192.168.137.1:6379'
+REDIS_URL = 'redis://root:@localhost:6379'
 
 
 ########################################################################################################################################
@@ -149,4 +149,8 @@ mysql_conf = {
    'passwd':'123456',
    'db':'jddb',
    'charset':'utf8',
+}
+
+sqlite_conf = {
+   'database':'jd.db',
 }
