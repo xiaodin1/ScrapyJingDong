@@ -79,7 +79,7 @@ AUTOTHROTTLE_ENABLED = True   #启用自动限速扩展
 # The initial download delay
 AUTOTHROTTLE_START_DELAY = 5  #初始化下载延时 5s
 # The maximum download delay to be set in case of high latencies
-AUTOTHROTTLE_MAX_DELAY = 30   #设置在高延迟情况下最大的下载延迟 30s
+AUTOTHROTTLE_MAX_DELAY = 20   #设置在高延迟情况下最大的下载延迟 30s
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
 #AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
