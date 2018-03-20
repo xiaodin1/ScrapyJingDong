@@ -142,15 +142,18 @@ REDIS_URL = 'redis://root:@192.168.137.1:6379'
 # Mongodb_Host = '192.168.137.1'
 # Mongodb_Port = 27017
 
-mysql_conf = {
-   'host':'192.168.137.1',
-   'port':3306,
-   'user':'root',
-   'passwd':'123456',
-   'db':'jddb',
-   'charset':'utf8',
-}
 
-sqlite_conf = {
-   'database':'jd.db',
+db_conf = {
+   'default':'mysql',
+   'sqlite':{
+      'database':'jd.db',  # sqlite路径
+   },
+   'mysql':{
+      'host': '192.168.137.1',
+      'port': 3306,
+      'user': 'root',
+      'passwd': '123456',
+      'db': 'jddb',
+      'charset': 'utf8',
+   },
 }

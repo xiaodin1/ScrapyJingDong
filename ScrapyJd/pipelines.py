@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from .settings import mysql_conf,sqlite_conf
 from .items import ScrapyjdItem
-from .db import Sqlite_Helper
+from .db import Db_Helper
 
 # Define your item pipelines here
 #
@@ -11,7 +10,7 @@ from .db import Sqlite_Helper
 
 class ScrapyjdPipeline(object):
     def __init__(self):
-        self._sql = Sqlite_Helper(**sqlite_conf)
+        self._sql = Db_Helper().db
 
     def process_item(self,item,spider):
         if isinstance(item,ScrapyjdItem):
