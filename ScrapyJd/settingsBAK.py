@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 
+import sys
 from datetime import datetime
+sys.path.append('..')
+from Config.config import redis_config
 
 # Scrapy settings for ScrapyJd project
 #
@@ -58,7 +61,8 @@ COOKIES_ENABLED = False
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
    # 'ScrapyJd.middlewares.ScrapyjdDownloaderMiddleware': 543,
-   'ScrapyJd.middlewares.UserAgentmiddleware':400
+   'ScrapyJd.middlewares.UserAgentmiddleware':400,
+   # 'ScrapyJd.middlewares.DownloaderStatsMiddleware':850,
 }
 
 # Enable or disable extensions
@@ -79,7 +83,7 @@ AUTOTHROTTLE_ENABLED = True   #启用自动限速扩展
 # The initial download delay
 AUTOTHROTTLE_START_DELAY = 5  #初始化下载延时 5s
 # The maximum download delay to be set in case of high latencies
-AUTOTHROTTLE_MAX_DELAY = 20   #设置在高延迟情况下最大的下载延迟 30s
+AUTOTHROTTLE_MAX_DELAY = 30   #设置在高延迟情况下最大的下载延迟 30s
 # The average number of requests Scrapy should be sending in parallel to
 # each remote server
 #AUTOTHROTTLE_TARGET_CONCURRENCY = 1.0
@@ -132,7 +136,7 @@ SCHEDULER_PERSIST = True
 
 # 设置此项优先级高于设置指定端口和地址
 # 例：REDIS_URL = 'redis://root:password@hostname:port'
-REDIS_URL = 'redis://root:@192.168.137.1:6379'
+REDIS_URL = redis_config['redis_url']
 
 
 ########################################################################################################################################
@@ -142,18 +146,3 @@ REDIS_URL = 'redis://root:@192.168.137.1:6379'
 # Mongodb_Host = '192.168.137.1'
 # Mongodb_Port = 27017
 
-
-db_conf = {
-   'default':'mysql',
-   'sqlite':{
-      'database':'jd.db',  # sqlite路径
-   },
-   'mysql':{
-      'host': '192.168.137.1',
-      'port': 3306,
-      'user': 'root',
-      'passwd': '123456',
-      'db': 'jddb',
-      'charset': 'utf8',
-   },
-}

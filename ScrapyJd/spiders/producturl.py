@@ -9,21 +9,22 @@ import re
 from ..items import ScrapyjdItem
 from datetime import datetime
 from ..helpers import log_param
+from Config.config import redis_config
 
 class ProducturlSpider(RedisSpider):
     name = 'producturl'
     allowed_domains = ['jd.com']
 
-    redis_key = 'producturl:start_urls'
+    redis_key = redis_config['start_urls_key']
 
     url_base = 'https://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&page={0}&sort=sort%5Frank%5Fasc&trans=1&JL=6_0_0#J_main'
     url_item_base = 'https://item.jd.com/{0}.html'
     url_price_base = 'https://p.3.cn/prices/mgets?pdtk=&skuIds=J_{0}'
     url_comments_base = 'https://sclub.jd.com/comment/productPageComments.action?productId={0}&score=0&sortType=5&page=0&pageSize=10'
 
-    def start_requests(self):
-        url = self.url_base.format(1)
-        yield scrapy.Request(url=url,callback=self.parse,dont_filter=True)
+    # def start_requests(self):
+    #     url = self.url_base.format(1)
+    #     yield scrapy.Request(url=url,callback=self.parse,dont_filter=True)
 
     def parse(self, response):
         text = None

@@ -15,6 +15,11 @@ from .cookies import init_cookie
 from scrapy.downloadermiddlewares.useragent import UserAgentMiddleware
 # 重试中间件
 from scrapy.downloadermiddlewares.redirect import RedirectMiddleware
+# 下载状态
+from scrapy.downloadermiddlewares.stats import DownloaderStats
+
+from scrapy import log
+from datetime import datetime
 
 
 class ScrapyjdSpiderMiddleware(object):
@@ -116,3 +121,9 @@ class UserAgentmiddleware(UserAgentMiddleware):
         agent = random.choice(USER_AGENTS)
         # log.msg('agent : %s' % agent,level=log.INFO)
         request.headers['User-Agent'] = agent
+
+class DownloaderStatsMiddleware(DownloaderStats):
+    def process_request(self, request, spider):
+        stats = self.stats.get_stats()
+
+

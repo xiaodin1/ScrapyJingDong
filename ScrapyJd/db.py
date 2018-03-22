@@ -3,20 +3,21 @@
 import pymysql
 import sqlite3
 from scrapy import log
-from .settings import db_conf
+# from .settings import db_conf
+from Config.config import *
 from .helpers import log_param
 
 
 class Db_Helper(object):
     def __init__(self):
         try:
-            db_cfg = db_conf['default']
-            if db_cfg == 'sqlite':
-                self.db = Sqlite_Helper(**db_conf[db_cfg])
-            elif db_cfg == 'mysql':
-                self.db = Mysql_Helper(**db_conf[db_cfg])
+            storage = storage_config['db_name']
+            if storage == 'sqlite':
+                self.db = Sqlite_Helper(**sqlite_config)
+            elif storage == 'mysql':
+                self.db = Mysql_Helper(**mysql_config)
             else:
-                log.msg('setting.db_conf is error',level=log.ERROR)
+                log.msg('global.cfg has error',level=log.ERROR)
         except Exception as ex:
             raise ex
 
