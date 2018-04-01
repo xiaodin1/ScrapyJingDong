@@ -9,13 +9,13 @@ import re
 from ..items import ScrapyjdItem
 from datetime import datetime
 from ..helpers import log_param
-from Config.config import redis_config
+from ..settings import START_URLS_KEY
 
 class ProducturlSpider(RedisSpider):
     name = 'producturl'
     allowed_domains = ['jd.com']
 
-    redis_key = redis_config['start_urls_key']
+    redis_key = START_URLS_KEY
 
     url_base = 'https://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&page={0}&sort=sort%5Frank%5Fasc&trans=1&JL=6_0_0#J_main'
     url_item_base = 'https://item.jd.com/{0}.html'

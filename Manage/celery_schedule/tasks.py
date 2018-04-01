@@ -5,15 +5,17 @@ from .application import app
 import requests
 import sys
 sys.path.append('..')
-from Config import config
 import redis
+
+REDIS_URL = 'redis://root:@192.168.2.117:6379'
+START_URLS_KEY = 'producturl:start_urls'
+JOBID_KEY = 'id:jobid'
 
 url_get_status = 'http://192.168.110.130:6800/listjobs.json'
 url_start_spider = 'http://192.168.110.130:6800/schedule.json'
 
 url_base = 'https://list.jd.com/list.html?cat=9987,653,655&ev=exbrand%5F14026&page={0}&sort=sort%5Frank%5Fasc&trans=1&JL=6_0_0#J_main'
-rd = redis.from_url(config.REDIS_URL)
-
+rd = redis.from_url(REDIS_URL)
 
 @app.task
 def add(x,y):
@@ -27,7 +29,7 @@ def start_spider():
     if jsonstr['running'] == []:
         start_spider_response = requests.post(url_start_spider,data={'project':'JingDongSpider','spider':'producturl'})
         start_spider_jsonstr = start_spider_response.json()
-        rd.lpush(config.JOBID_KEY,start_spider_jsonstr['jobid'])
+        rd.lpush(JOBID_KEY,start_spider_jsonstr['jobid'])
         # with open('id.txt','a+') as fp:
         #     fp.write(start_spider_jsonstr['jobid']+'\n')
     else:
@@ -38,7 +40,7 @@ def start_spider():
 def feed_spider():
     result = None
     try:
-        result = rd.lpush(config.START_URLS_KEY,url_base.format(1))
+        result = rd.lpush(START_URLS_KEY,url_base.format(1))
     except Exception as ex:
         raise ex
     finally:

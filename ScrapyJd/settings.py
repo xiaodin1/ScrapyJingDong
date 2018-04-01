@@ -3,7 +3,7 @@
 import sys
 from datetime import datetime
 sys.path.append('..')
-from Config.config import redis_config
+# from Config.config import redis_config
 
 # Scrapy settings for ScrapyJd project
 #
@@ -136,8 +136,8 @@ SCHEDULER_PERSIST = True
 
 # 设置此项优先级高于设置指定端口和地址
 # 例：REDIS_URL = 'redis://root:password@hostname:port'
-REDIS_URL = redis_config['redis_url']
-
+REDIS_URL = 'redis://root:@192.168.2.117:6380'
+START_URLS_KEY = 'producturl:start_urls'
 
 ########################################################################################################################################
 #>>> MongoDB config
@@ -145,4 +145,21 @@ REDIS_URL = redis_config['redis_url']
 
 # Mongodb_Host = '192.168.137.1'
 # Mongodb_Port = 27017
+
+
+db_conf = {
+   'default':'mysql',
+   'sqlite':{
+      'database':'jd.db',
+   },
+   'mysql':{
+      'host':'192.168.2.117',
+      'port':3307,
+      'user':'root',
+      'passwd':'123456',
+      'db':'jddb',
+      'charset':'utf8',
+   },
+}
+
 
