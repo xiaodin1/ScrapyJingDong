@@ -3,7 +3,7 @@
 import sys
 from datetime import datetime
 sys.path.append('..')
-# from Config.config import redis_config
+from Config import global_settings as gset
 
 # Scrapy settings for ScrapyJd project
 #
@@ -103,7 +103,7 @@ AUTOTHROTTLE_DEBUG = False #用于启动Debug模式
 REDIRECT_ENABLED = True   #重定向 False为禁止
 
 LOG_LEVEL = 'INFO'   #日志级别
-LOG_FILE="./Logs/%s.txt"%datetime.now().strftime('%Y%m%d%H%M%S')  #输入日志到指定文件
+LOG_FILE="./logs_dev/%s.txt"%datetime.now().strftime('%Y%m%d%H%M%S')  #输入日志到指定文件
 
 
 ########################################################################################################################################
@@ -136,30 +136,10 @@ SCHEDULER_PERSIST = True
 
 # 设置此项优先级高于设置指定端口和地址
 # 例：REDIS_URL = 'redis://root:password@hostname:port'
-REDIS_URL = 'redis://root:@192.168.2.117:6380'
+REDIS_URL = gset.REDIS_URL
 START_URLS_KEY = 'producturl:start_urls'
 
-########################################################################################################################################
-#>>> MongoDB config
-########################################################################################################################################
+ITEM_PIPELINES_DB_CONF = gset.SPIDER_DB_CONF
 
-# Mongodb_Host = '192.168.137.1'
-# Mongodb_Port = 27017
-
-
-db_conf = {
-   'default':'mysql',
-   'sqlite':{
-      'database':'jd.db',
-   },
-   'mysql':{
-      'host':'192.168.2.117',
-      'port':3307,
-      'user':'root',
-      'passwd':'123456',
-      'db':'jddb',
-      'charset':'utf8',
-   },
-}
 
 

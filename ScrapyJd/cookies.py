@@ -12,9 +12,6 @@ login_url = 'https://passport.jd.com/uc/login?ltype=logout'
 
 def get_cookie(account,password):
     '''获取Cookie'''
-
-
-
     s = requests.Session()
     payload = {
         'log':account,
