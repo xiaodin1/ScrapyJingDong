@@ -2,7 +2,7 @@
   
 docker环境搭建
 ```commandline  
-# sudo docker run -it -d --name jd_spider_01 -p 2201:22 -p 6801:6800 jdspider:0.1 bash
+# sudo docker run -it -d --name jd_spider_03 -p 6802:6800 -p 5002:5000 -p 2201:22 -v /etc/localtime:/etc/localtime:ro jdspider:0.3
 # sudo docker run --name jd_mysql -e MYSQL_ROOT_PASSWORD=123456 -d -p 3308:3306 daocloud.io/library/mysql:latest  
 # sudo docker run --name jd_redis -d -p 6380:6379 daocloud.io/library/redis:latest  
 # sudo docker run -d --hostname rabbitmq --name jd_rabbitmq -p 5676:5672 rabbitmq:latest
