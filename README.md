@@ -27,5 +27,5 @@ Celery模块测试
 # vim /usr/local/lib/python3.5/dist-packages/scrapyd/default_scrapyd.conf
 bind_address = 0.0.0.0
 # cd ScrapyJingDong
-# python3 scrapyd-deploy -p ScrapyJD --version 0.1
+# python3 scrapyd-deploy 100 -p ScrapyJD --version 0.1
 ```

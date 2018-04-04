@@ -20,7 +20,7 @@ CELERY_ACCEPT_CONTENT = ['json','msgpack']  #指定接受的内容类型
 CELERYBEAT_SCHEDULE = {
     'feed_spider':{
         'task': 'celery_schedule.tasks.feed_spider',
-        # 'schedule': timedelta(hours=1),
+        # 'schedule': timedelta(seconds=10),
         'schedule':crontab(minute=0, hour=0),
     }
 }

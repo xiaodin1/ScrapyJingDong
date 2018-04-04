@@ -1,7 +1,9 @@
 # -*- coding:utf-8 -*-
 
-REDIS_URL = 'redis://root:@192.168.2.125:6380'
-RABBITMQ_URL = 'amqp://guest:guest@192.168.2.125:5676/'
+SERVER_IP = '192.168.1.108'
+
+REDIS_URL = 'redis://root:@{0}:6380'.format(SERVER_IP)
+RABBITMQ_URL = 'amqp://guest:guest@{0}:5676/'.format(SERVER_IP)
 
 SPIDER_START_URLS_KEY = 'producturl:start_urls'
 SPIDER_JOBID_KEY = 'id:jobid'
@@ -11,7 +13,7 @@ SPIDER_DB_CONF = {
       'database':'jd.db',
    },
    'mysql':{
-      'host':'192.168.2.125',
+      'host':SERVER_IP,
       'port':3308,
       'user':'root',
       'passwd':'123456',
@@ -19,12 +21,12 @@ SPIDER_DB_CONF = {
       'charset':'utf8',
    },
     'mongodb':{
-        'host':'192.168.2.125',
+        'host':SERVER_IP,
         'port':27017,
     },
 }
 
-SPIDERD_HOST = '192.168.2.125:6801'
+SPIDERD_HOST = '{0}:6802'.format(SERVER_IP)
 
 
 TEMP_PROJECT_NAME = 'ScrapyJD'
